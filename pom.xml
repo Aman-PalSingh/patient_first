@@ -9,10 +9,8 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.aps</groupId>
-	<artifactId>patient_service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>patient_service</name>
-	<description>Patient Service</description>
+	<artifactId>patient_first</artifactId>
+	<name>patient_first</name>
 	<url/>
 	<licenses>
 		<license/>
