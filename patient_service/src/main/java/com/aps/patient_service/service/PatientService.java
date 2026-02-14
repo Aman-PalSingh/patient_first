@@ -60,6 +60,9 @@ public class PatientService {
 
         return PatientMapper.toPatientResponseDTO(updatedPatient);
     }
+    public void deletePatient(UUID id){
+        patientRepository.deleteById(id);
+    }
 }
 
 

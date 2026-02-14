@@ -21,10 +21,10 @@ public class PatientRequestDTO {
     @NotBlank (message = "Address is required")
     private String address;
 
-    @NotNull(groups = CreatePatientValidationGroup.class, message = "Date of birth is required")
+    @NotNull(message = "Date of birth is required")
     private LocalDate dateOfBirth;
 
-    @NotNull(message = "Date of registration is required")
+    @NotNull(groups = CreatePatientValidationGroup.class, message = "Date of registration is required")
     private LocalDate dateOfRegistration;
 
     // Getters and Setters
