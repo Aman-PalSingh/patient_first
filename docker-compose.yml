@@ -7,7 +7,7 @@
       container_name: patient_service
 
       ports:
-        - "4000:4001"
+        - "4000:4000"
 
       environment:
         SPRING_DATASOURCE_PASSWORD: password
@@ -40,6 +40,18 @@
         - internal
 
       restart: unless-stopped
+    billing_service:
+      build:
+        context: ./billing_service
+        dockerfile: Dockerfile
+      image: billing_service:latest
+      container_name: billing_service
+
+      ports:
+        - "4001:4001"
+        - "9001:9001"
+      networks:
+        - internal
 
   volumes:
     patient_db_data:
