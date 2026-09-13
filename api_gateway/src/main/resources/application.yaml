@@ -1,0 +1,26 @@
+server:
+  port: 4004
+
+spring:
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: patient_service_route
+              uri: http://patient-service:4000
+              predicates:
+                - Path=/api/patients,/api/patients/**
+              filters:
+                - StripPrefix=1
+
+            - id: api_docs_patient_root
+              uri: http://patient-service:4000
+              predicates:
+                - Path=/api_docs/patients
+              filters:
+                - RewritePath=/api_docs/patients,/v3/api/docs
+
+#logging:
+#  level:
+#    org.springframework.cloud.gateway: DEBUG
