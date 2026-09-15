@@ -51,8 +51,7 @@ services:
     ports:
       - "4004:4004"
     environment:
-      LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_CLOUD_GATEWAY: DEBUG
-      LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_CLOUD_GATEWAY_HANDLER_ROUTEPREDICATEHANDLERMAPPING: TRACE
+      AUTH_SERVICE_URL: http://auth-service:4005
     depends_on:
       - patient-service
 
@@ -106,6 +105,26 @@ services:
 
     restart: unless-stopped
 
+  auth-service-db:
+    image: postgres:15
+    container_name: auth-service-db
+
+    environment:
+      POSTGRES_USER: admin_user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: db
+
+    ports:
+      - "5001:5432"
+
+    volumes:
+      - auth_db_data:/var/lib/postgresql/data
+
+    networks:
+      - internal
+
+    restart: unless-stopped
+
   billing-service:
     build:
       context: ./billing_service
@@ -120,8 +139,30 @@ services:
     networks:
       - internal
 
+  auth-service:
+    build:
+      context: ./auth_service
+      dockerfile: Dockerfile
+    image: auth-service:latest
+    container_name: auth-service
+
+    environment:
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_DATASOURCE_URL: jdbc:postgresql://auth-service-db:5432/db
+      SPRING_DATASOURCE_USERNAME: admin_user
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_SQL_INIT_MODE: always
+      JWT_SECRET: 4aYkx5W5TXcTXZnhmChH2UIEHV83cJMfrdH9hkOsa7s
+
+    depends_on:
+      - auth-service-db
+
+    networks:
+      - internal
+
 volumes:
   patient_db_data:
+  auth_db_data:
 
 networks:
   internal:

@@ -14,6 +14,8 @@
 		<module>patient_service</module>
 		<module>billing_service</module>
 		<module>analytics_service</module>
+		<module>api_gateway</module>
+		<module>integration_tests</module>
 	</modules>
 
 </project>
